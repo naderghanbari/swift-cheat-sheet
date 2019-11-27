@@ -18,7 +18,7 @@ var x, y, z: Double                       // Multiple Variable Declarations, The
 var x = 0, y = 0, z = 0                   // Multiple Variable Initializations, Inferred Type
 
 typealias Distance = Int64                // Type Alias
-```
+``
 </details>
 
 <details>
@@ -47,10 +47,6 @@ let longString = """                      // Multi-line Strings
   string.
   """                                     // Closing quote determines the alignment (no need for strip)
 
-let threeMoreDoubleQuotationMarks = #"""  // Escape from escaping!
-Here are three more double quotes: """
-"""#
-
 let immutableString = "no can change"     // Constant strings are immutable
 
 var changeMeLater = "Yes, "               // Variable strings are mutable
@@ -68,6 +64,10 @@ s[s.index(after: s.startIndex)]           // u
 for character in "Dog!🐶" {               // Iterate over characters 
   print(character)
 }
+
+let threeMoreDoubleQuotationMarks = #"""  // Escape from escaping!
+Here are three more double quotes: """
+"""#
 ```
 
 </details>
@@ -91,11 +91,11 @@ let ascpetRatio: Float = 1.333333         // 32-bit floating point number
 <summary>Booleans</summary>
 
 ```swift
-let thisIsATautology: Bool = true         // Bool type for booleans, `true` litreal
+let thisIsATautology: Bool = true         // Bool type for booleans, true litreal
 
 let examFailed = false                    // `false` literal 
 
-let isSafe = zombiesCount == 0            // Equality comparison operator `==`
+let isSafe = zombiesCount == 0            // Equality comparison operator ==
 
 if isSafe { print("No worries") }         // Conditional 
 else { print("Run!") }
@@ -113,7 +113,7 @@ let p: (Int, Int, Int) = (1, 3, 5)        // 3-Tuple Construction, Annotated Typ
 
 let (x, y, z) = coordinates               // Deconstruction
 
-let (host, _) = binding                   // Discarding extra information with `_`
+let (host, _) = binding                   // Discarding extra information with _
 
 print("Host: \(binding.0)")               // Accessing the First component (0-based index)
 print("Port: \(binding.1)")               // Accessing the Second component
@@ -142,26 +142,26 @@ var policyNoOpt: String?                  // Initial value is `nil` for uninitia
 policyNoOpt = "#FF2345"                   // Assign an actual value, indicates presense of a value
 
 if (maybeNumber != nil) {                 // Presence of value Check
-  let num = maybeNumber!                  // Access value by forcing matters using `!`
-  print("Lucky number is: \(num)          // Forcing throws runtime error if value is `nil`
+  let num = maybeNumber!                  // Access value by forcing matters using !
+  print("Lucky number is: \(num)          // Forcing throws runtime error if value is nil
 }
 
 if let policyNo = policyNoOpt {           // Optional Binding, checks presence and binds
   print("Policy No: \(policyNo)")         // the actual value, if any, 
-}                                         // at the same time (a la monadic `map`)
+}                                         // at the same time (a la monadic map)
 
 if var name = nameOpt,                    // Multiple Optional Bindings
    let age = ageOpt,                      // Unpacking to a variable or constant is allowed
    age > 2 {                              // Using unpacked value in more conditionals is allowed
-     name = "Passenger \(name)"           // Condition fails if any of optionals are `nil` or
+     name = "Passenger \(name)"           // Condition fails if any of optionals are nil or
      print("\(name): \(age)")             // if subsequent constraints don't hold
 }
 
-var email: String!                        // Implicitly Unwrapped Optional, Type qualified by `!`
+var email: String!                        // Implicitly Unwrapped Optional, Type qualified by !
 email = "john@doe.com"                    // Initialization, Most probably in a class constructor
-print(email)                              // Auto-unwrapped, `email` acts as `email!` everyhwere
+print(email)                              // Auto-unwrapped, email acts as email! everyhwere
 
-maybeNumber ?? 0                          // Nil Coalesce, Like `maybeNumber.getOrElse(0)` in Scala
+maybeNumber ?? 0                          // Nil Coalesce, Like maybeNumber.getOrElse(0) in Scala
 ```
 
 </details>
