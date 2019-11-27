@@ -143,7 +143,7 @@ policyNoOpt = "#FF2345"                   // Assign an actual value, indicates p
 
 if (maybeNumber != nil) {                 // Presence of value Check
   let num = maybeNumber!                  // Access value by forcing matters using !
-  print("Lucky number is: \(num)          // Forcing throws runtime error if value is nil
+  print("Lucky number is: \(num)")        // Forcing throws runtime error if value is nil
 }
 
 if let policyNo = policyNoOpt {           // Optional Binding, checks presence and binds
