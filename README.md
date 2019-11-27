@@ -18,7 +18,7 @@ var x, y, z: Double                       // Multiple Variable Declarations, The
 var x = 0, y = 0, z = 0                   // Multiple Variable Initializations, Inferred Type
 
 typealias Distance = Int64                // Type Alias
-``
+```
 </details>
 
 <details>
