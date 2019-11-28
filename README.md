@@ -212,3 +212,68 @@ myArray[..<2]                            // One-Sided exclusive range, myArray[:
 ```
 
 </details>
+
+<details>
+<summary>Collections: Arrays</summary>
+
+```swift
+var arr: Array<Int>                      // Mutable array of integers, var signals mutability
+
+var arr: [Int] = []                      // Shorthand and preferred notation for array types
+
+["a", "b", "c"]                          // Array Literal
+
+arr.append(1)                            // Append an element
+arr += [1, 2]                            // Append an array to the end of this array
+
+arr1 + arr2                              // Concatenate two arrays
+
+arr.count                                // Size of the array
+arr.isEmpty                              // Emptiness check
+
+arr[0]                                   // Access elements, Subscript syntax
+
+arr[0] = "NewValue"                      // Update element at a specific index
+
+const justRemoved = arr.remove(at: 2)    // Remove the item at index 2 and return it
+const wasLast = arr.removeLast()         // Remove last element from array
+
+for item in shoppingList {               // Iterate over an array
+  print(item)
+}
+
+for (idx, elem) in arr.enumerated() {   // Iterate with index
+    print("Item \(idx + 1): \(elem)")
+}
+```
+
+</details>
+
+<details>
+<summary>Collections: Sets</summary>
+
+```swift
+var mySet: Set<SomeType>                // Set type, SomeType must be Hashable
+
+var letters = Set<Character>()          // Empty set
+
+const genres: Set = ["Rock", "Jazz"]    // Array litreal can be used for sets
+
+letters.insert("b")                     // Add a new member
+
+letters.count                           // Size of the set
+
+letters.contains("c")                   // Membership, indicator function of the set
+
+setA.intersection(setB)                 // Set-theoric functions
+setA.symmetricDifference(setB)
+setA.union(setB)
+setA.subtracting(setB)
+setA.isSubset(of: setB) 
+setA.isSuperset(of: setB) 
+setA.isStrictSubset(of: setB) 
+setA.isStrictSuperset(of: setB) 
+setA.isDisjoint(with: setB) 
+```
+
+</details>
