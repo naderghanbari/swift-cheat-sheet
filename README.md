@@ -277,3 +277,44 @@ setA.isDisjoint(with: setB)
 ```
 
 </details>
+
+<details>
+<summary>Collections: Dictionaries</summary>
+
+```swift
+var dict: Dictionary<String, String>    // Dictionary<Key, Value>
+
+var population: [String: Int]           // Shorthand and preferred type notation
+
+var population = [String: Int]()        // Empty dictionary with explicit types
+
+population = [:]                        // Empty set litreal for an already proven type
+
+["Earth": 42, "Mars": 1, "Moon": -14]   // Dictionary literal   
+
+population["Earth"] = 42                // Assign value to key
+
+                                        // Alternative syntax for updating
+const oldVal: Int? = population.updateValue(43, forKey: "Earth")
+
+if let old = population.updateValue(43, forKey: "Earth") {
+  print("The old value for Earth was \(old).")
+}
+
+population.removeValue(forKey: "Earth") // Remove a key
+
+population["Earth"] = nil               // Syntactic sugar for removing a key
+
+const p: Int? = population["Moon"]      // Access values for a key, if any
+
+for (where, howMany) in population {    // Iterate over <K,V> pairs
+  print("\(where): \(howMany)")
+}
+
+population.keys                         // Keys set
+population.values                       // Values set
+
+[String](population.keys.sorted())      // Convert the key set to a sorted array
+```
+
+</details>
