@@ -527,3 +527,32 @@ func sideEffect() {                     // Type of this function is () -> Void o
 ```
 
 </details>
+
+<details>
+<summary>Closures, aka Lambdas</summary>
+
+```swift
+let nums = [1, 5, 3, 4]
+
+                                        // "by" is a lambda passed to the sorted function
+                                        // syntax : { (Params) -> ReturnType in expr } 
+nums.sorted(by: { (x: Int, y: Int) -> Bool in x < y })
+
+nums.sorted(by: { x, y in x < y })      // Inferred types and implicit return, short and nice!
+
+                                        // Bash and Perl fans, embrace for impact
+names.sorted(by: { $0 > $1 } )          // Shorthand notation, $0 for 1st arg, $1 the 2nd and so on  
+
+names.sorted(by: >)                     // Operator methods, String::< in this case   
+names.sorted(by: <)                     // Beautiful and simple and type-safe at the same time
+                                        // Not as powerful as type-classes in Haskell or Scala, but it'll do
+
+names.sorted { $0 > $1 }                // Trailing closure syntax
+                                        // At call site if the last arg of a function call is
+                                        // a closure, it can be passed in after the parns or 
+                                        // after the function name if there's no parens
+
+nums.map { x in x * 2 }                 // Another example with the map method of arrays
+```
+
+</details>
