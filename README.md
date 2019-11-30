@@ -335,6 +335,8 @@ switch someCharacter {
 
 // No fall through
 // First match wins
+// Must be exhaustive, that is should always match any value of the target type
+// Compile error if switch is not exhaustive, very helpful
 
 swith someCharacter {
   case "a", "A": print("A or a")       // Either "a" or "A"  
@@ -571,6 +573,118 @@ func serve(customer customerProvider: @autoclosure () -> String) {
                                         // Because customer is an autoclosure we can pass it
                                         // like a regular param without parens
 serve(customer: customersInLine.remove(at: 0))
+```
+
+</details>
+
+<details>
+<summary>Enums</summary>
+
+```swift
+enum CompassPoint {                     // Enum type
+  case north                            // Enum case            
+  case south                            // Unlike C, there's no integer value by default
+  case east
+  case west
+}
+
+enum Direction {
+  case up, left, down, right            // Multiple comma-separated cases    
+}
+
+let nextMove = Direction.up             // Using it with a fully qualified name
+
+var dir: CompassPoint                   
+dir = .north                            // Shorthand, works only if the type is known
+
+switch dir {                            // Pattern matching on enums
+  case .north: print("Us")              // Must be exhaustive as usual
+  case .south: print("Them")
+  case .east:  print("Far")
+  case .west:  print("Also us")
+}  
+
+enum Drink: CaseIterable {           // Makes it iterable
+  case coffee, tea, juice
+}
+let all: [Drink] = Drink.allCases    // allCases return the array of all cases
+
+
+enum TwoFactorAuthMethod {           // Enums cas be used for ADTs
+  case disabled
+  case phone(String)                 // Associated values, works like tuples, can be named
+  case textMessage(String)      
+  case google(token: String, time: Int)
+  case accessCodes(codes: [String])     
+  case email(String, secondary: String)
+}
+
+var method: TwoFactorAuthMethod
+method = .phone("+1-111-111111")    // Passing associated values, just like tuples
+method = .accessCodes(codes: ["1", "2"])
+method = .disabled
+
+switch method {                     // Pattern matching on ADTs                
+  case .disabled:                    
+    print("No way!")
+  case .phone(let number):          // Binding the associated value, think tuples
+    print(number)
+  case let .accessCodes(codes):     // Let or var can be placed before case name 
+    print(codes.count)
+  case .email:                      // Associated values can be ignored    
+    print("Temporarily unsupported")
+  default:
+    print("Other methods are not supported yet!") 
+}
+
+enum ASCII: Character {             // Raw values, lifting value types to enums
+  case tab = "\t"                   // Each raw value must be unique
+  case lf = "\n"                    // Compiler asserts this because it's smart and it
+  case cr = "\r"                    // knows how to distinguish different literals!
+}
+
+                                    // Implicit raw values
+                                    // Each case's raw value is the previous' + 1
+enum Planet: Int {
+    case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+extension Planet: CaseIterable {}   // Making it iterable using extensions 
+
+Planet.earth.rawValue               // Accessing raw values
+
+enum CompassPoint: String {         // For String raw values, the name of each
+    case north, south, east, west   // case is implicitly assigned as the raw value
+}
+
+CompassPoint.north.rawValue         // "north"
+
+                                    // Initializing from a raw value
+                                    // Returns an optional, reasonably, because not 
+                                    // all raw values necessarily correspond to an actual case
+let maybe: Planet? = Planet(rawValue: 7)
+
+
+                                    // And now, the super power of enums in Swift!
+                                    // Recursive enumerations
+enum Expr {
+  case number(Int)
+  indirect case add(Expr, Expr)     // indirect keyword is needed for recursive branches
+  indirect case mul(Expr, Expr)
+}
+
+indirect enum Expr {                // indirect keyword can be put before the enum
+  case number(Int)                  // keyword which then applies to all cases with    
+  case add(Expr, Expr)              // associated values  
+  case mul(Expr, Expr)
+}
+
+func eval(_ expr: Expr) -> Int {    // A recursive function
+  switch expr {                     // Pattern matching recursive enums
+    case let .number(value): return value
+    case let .add(l, r): return eval(l) + eval(r)
+    case let .mul(l, r): return eval(l) * eval(r)
+  }
+}
 ```
 
 </details>
