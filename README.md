@@ -432,16 +432,16 @@ abs(x: -3)                              // Calling the function, naming the para
 
                                         // A function that returns an optional tuple
 func minMax(array: [Int]) -> (min: Int, max: Int)? {
-    if array.isEmpty {
-      return nil
-    }
-    // Find min and max is array is not empty
-    return (min, max)
+  if array.isEmpty {
+    return nil
+  }
+  // Find min and max is array is not empty
+  return (min, max)
 }
 
                                         // Calling the function
 if let bounds = minMax(array: [8, -6, 2, 109, 3, 71]) {
-    print("min is \(bounds.min) and max is \(bounds.max)")
+  print("min is \(bounds.min) and max is \(bounds.max)")
 }
 
 func sgn(x: Int) -> Int {               // Implicit Return
@@ -451,7 +451,7 @@ func sgn(x: Int) -> Int {               // Implicit Return
                                         // Argument label "from"
                                         // Parameter name "hometown"
 func greet(person: String, from hometown: String) -> String {
-    return "You're from \(hometown)."   // Parameter name is used in the body
+  "You're from \(hometown)."            // Parameter name is used in the body
 }
 
 greet(person: "Joe", from: "Montreal")  // Argument label is used at call site
@@ -465,16 +465,16 @@ func abs(_ x: Int) -> Int {             // Omitting the arg label
 abs(4)                                  // Now "abs" can be called wihtout any label
 
                                         // Default values for parameters
-func dockerPort(host: String = "localhost", port: Int = 80) -> 80 {
-  // 
+func dockerPort(host: String = "localhost", port: Int = 80) -> Int {
+  // function body
 }
 
 func mean(_ arr: Double...) -> Double { // Variadic params, like Varargs in Java 
-    var total: Double = 0               // At mpst one varaidic arg is allowed per function
-    for number in numbers {             // Type of variadic arg "arr" is [Double]
-        total += number
-    }
-    return total / Double(numbers.count)
+  var total: Double = 0                 // At mpst one varaidic arg is allowed per function
+  for number in numbers {               // Type of variadic arg "arr" is [Double]
+    total += number
+  }
+  return total / Double(numbers.count)
 }
 
 mean(1, 2, 3, 4)
@@ -484,9 +484,9 @@ mean(1, 2, 3, 4)
                                         // Indicates that the param is passed as a mutable reference.
                                         // Please avoid this at all costs!  
 func swapTwoInts(_ a: inout Int, _ b: inout Int) {
-    let temporaryA = a
-    a = b
-    b = temporaryA
+  let temporaryA = a
+  a = b
+  b = temporaryA
 }
 
 var someInt = 3
@@ -494,7 +494,7 @@ var anotherInt = 107                    // Only mutable vars are allowed as inou
 swapTwoInts(&someInt, &anotherInt)      // Prefixing with & is required for inout vars
 
 func add(_ a: Int, _ b: Int) -> Int {   // Type of this function is (Int, Int) -> Int
-    return a + b
+  return a + b
 }
 
 var myFunc: (Int, Int) -> Int = add     // Function variable, 
@@ -510,6 +510,16 @@ func choose(dir: Bool) -> (Int) -> Int {
   func backward(_ x: Int) -> Int {x - 1 }
   return dir ? forward : backward
 }
+
+func sideEffect() {                     // Type of this function is () -> Void or () -> ()
+  print("Hello")                        // () indicates no input params and also is an alias for Void 
+}                                       // Void is the same as Unit in Haskell and Scala
+                                        // If you find it confusing that Unit in Haskell is Void in 
+                                        // Swift and the Void type in Haskell is 
+                                        // a totally different thing, then congrats, you are a 
+                                        // normal person. 
+                                        // Keywords for search: "Initial and Terminal objects"  
+                                        
 ```
 
 </details>
