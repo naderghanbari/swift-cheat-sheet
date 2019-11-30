@@ -540,7 +540,7 @@ nums.sorted(by: { (x: Int, y: Int) -> Bool in x < y })
 
 nums.sorted(by: { x, y in x < y })      // Inferred types and implicit return, short and nice!
 
-                                        // Bash and Perl fans, embrace for impact
+                                        // Bash and Perl fans, brace for impact
 names.sorted(by: { $0 > $1 } )          // Shorthand notation, $0 for 1st arg, $1 the 2nd and so on  
 
 names.sorted(by: >)                     // Operator methods, String::< in this case   
@@ -554,11 +554,12 @@ names.sorted { $0 > $1 }                // Trailing closure syntax
 
 nums.map { x in x * 2 }                 // Another example with the map method of arrays
 
+
+var globalHandlers: [() -> ()]
                                         // @escaping is needed if the closure escapes 
                                         // Compiler is rightfully very strict, no surprises like youKnowWho.js
-var globalVenetHandlers: [() -> ()]
 func register(handler: @escaping () -> ()) {
-  globalVenetHandlers.append(handler)
+  globalHandlers.append(handler)
 }
 
                                         // AutoClosures, aka Call-by-Name
