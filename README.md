@@ -549,10 +549,27 @@ names.sorted(by: <)                     // Beautiful and simple and type-safe at
 
 names.sorted { $0 > $1 }                // Trailing closure syntax
                                         // At call site if the last arg of a function call is
-                                        // a closure, it can be passed in after the parns or 
+                                        // a closure, it can be passed in after the parens or 
                                         // after the function name if there's no parens
 
 nums.map { x in x * 2 }                 // Another example with the map method of arrays
+
+                                        // @escaping is needed if the closure escapes 
+                                        // Compiler is rightfully very strict, no surprises like youKnowWho.js
+var globalVenetHandlers: [() -> ()]
+func register(handler: @escaping () -> ()) {
+  globalVenetHandlers.append(handler)
+}
+
+                                        // AutoClosures, aka Call-by-Name
+                                        // Passed param won't be evaluated until and if used
+                                        // in the body at runtime
+func serve(customer customerProvider: @autoclosure () -> String) {
+  print("Now serving \(customerProvider())!")
+}
+                                        // Because customer is an autoclosure we can pass it
+                                        // like a regular param without parens
+serve(customer: customersInLine.remove(at: 0))
 ```
 
 </details>
