@@ -245,6 +245,10 @@ for item in shoppingList {               // Iterate over an array
 for (idx, elem) in arr.enumerated() {   // Iterate with index
     print("Item \(idx + 1): \(elem)")
 }
+
+myArray[2...]                            // One-Sided range, Array Slicing a la Python's myArray[2:]
+myArray[...2]                            // One-Sided inclusive range, myArray[:3] in Python
+myArray[..<2]                            // One-Sided exclusive range, myArray[:2] in Python
 ```
 
 </details>
@@ -395,10 +399,10 @@ switch myInt {
   case 2, 3, 5, 7, 11, 13, 17, 19:
     description += " is prime, and also"
     fallthrough                         // Falls through to next case, like C
-default:
+  default:
     description += " an integer."
 }
-// prints "5 is primem and also an integer"
+// prints "5 is prime and also an integer"
 
 
 func greet(user: [String: String]) {
