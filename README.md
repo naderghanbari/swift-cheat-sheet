@@ -318,3 +318,198 @@ population.values                       // Values set
 ```
 
 </details>
+
+<details>
+<summary>Switch</summary>
+
+```swift
+switch someCharacter {                  
+  case "a": print("The first letter of the alphabet")
+  case "z": print("The last letter of the alphabet")
+  default : print("Some other character")
+}
+
+// No fall through
+// First match wins
+
+swith someCharacter {
+  case "a", "A": print("A or a")       // Either "a" or "A"  
+}
+
+switch approximateCount {
+  case 0     : naturalCount = "no"
+  case 1..<5 : naturalCount = "a few"  // Range matching
+} 
+
+let anotherPoint = (2, 0)             
+switch anotherPoint {       
+  case (let x, 0):                     // Binding and partial matcing
+    print("on x-axis \(x)")
+  case (0, let y):
+    print("on y-axis (y)")
+  case let (x, y) where x == y:        // Where clause for bound variables
+    print("on the diagnoal")
+  case let (x, y):
+    print("any other case") 
+} 
+
+ler origin = (0, 0)
+let myPoint = (9, 0)
+switch myPoint {
+  case origin:                         // Value match: checks equality
+    print("Is Origin")
+  case (let dist, 0), (0, let dist):   // Compound case with binding: all of the same type
+    print("On an axis, \(dist) ")      // If it doesn't make sense at first sight, play with it 
+  default:
+    print("Not on an axis")
+} 
+```
+
+</details>
+
+<details>
+<summary>Control Flow</summary>
+    
+```swift
+for char in input {
+  if char == "a" {
+    continue                            // Skip the rest of current and go to next iteration
+  }
+  process(char)
+}
+
+
+for char in input {
+  if char == "E" {
+    break                               // Break out of the whole loop
+  }
+  process(char)
+}
+print("E pressed, game over!")
+
+let myInt = 5
+var description = "\(myInt) is"
+switch myInt {
+  case 1:
+   break                                // Match and ignore case using break
+  case 2, 3, 5, 7, 11, 13, 17, 19:
+    description += " is prime, and also"
+    fallthrough                         // Falls through to next case, like C
+default:
+    description += " an integer."
+}
+// prints "5 is primem and also an integer"
+
+
+func greet(user: [String: String]) {
+  guard let name = user["name"] else {  // Guard statement 
+    return                              // Early exit pattern
+  }
+
+  print("Hello \(name)!")
+
+  guard let loc = user["loc"] else {    // Watch out, another guard!
+    print("Where are you?")             // Another not so early exist
+    return
+  }
+
+  print("Weather is nice in \(loc).")
+}
+```
+
+</details>
+
+<details>
+
+<summary>Functions</summary>
+
+```swift
+func abs(x: Int) -> Int {               // Defining a function of type Int -> Int
+  return x < 0 ? -x : x 
+}
+
+abs(x: -3)                              // Calling the function, naming the param is required
+
+                                        // A function that returns an optional tuple
+func minMax(array: [Int]) -> (min: Int, max: Int)? {
+    if array.isEmpty {
+      return nil
+    }
+    // Find min and max is array is not empty
+    return (min, max)
+}
+
+                                        // Calling the function
+if let bounds = minMax(array: [8, -6, 2, 109, 3, 71]) {
+    print("min is \(bounds.min) and max is \(bounds.max)")
+}
+
+func sgn(x: Int) -> Int {               // Implicit Return
+  x < 0 ? -1 : x > 0 ? 1 : 0            // If the entire body is a single expression, there
+}                                       // is no need for the "return" keywrod
+
+                                        // Argument label "from"
+                                        // Parameter name "hometown"
+func greet(person: String, from hometown: String) -> String {
+    return "You're from \(hometown)."   // Parameter name is used in the body
+}
+
+greet(person: "Joe", from: "Montreal")  // Argument label is used at call site
+                                        // By default param name is used as the arg label
+                                        // Like "person" param in this function
+
+func abs(_ x: Int) -> Int {             // Omitting the arg label
+  x < 0 ? -x : x 
+}
+
+abs(4)                                  // Now "abs" can be called wihtout any label
+
+                                        // Default values for parameters
+func dockerPort(host: String = "localhost", port: Int = 80) -> 80 {
+  // 
+}
+
+func mean(_ arr: Double...) -> Double { // Variadic params, like Varargs in Java 
+    var total: Double = 0               // At mpst one varaidic arg is allowed per function
+    for number in numbers {             // Type of variadic arg "arr" is [Double]
+        total += number
+    }
+    return total / Double(numbers.count)
+}
+
+mean(1, 2, 3, 4)
+
+                                        // inout params, annotated by putting the 
+                                        // "inout" keyword before the type
+                                        // Indicates that the param is passed as a mutable reference.
+                                        // Please avoid this at all costs!  
+func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+
+var someInt = 3
+var anotherInt = 107                    // Only mutable vars are allowed as inout params
+swapTwoInts(&someInt, &anotherInt)      // Prefixing with & is required for inout vars
+
+func add(_ a: Int, _ b: Int) -> Int {   // Type of this function is (Int, Int) -> Int
+    return a + b
+}
+
+var myFunc: (Int, Int) -> Int = add     // Function variable, 
+                                        // For λ calculus geeks: Eta conversion 
+
+                                        // Higher order function
+func hof(_ adder: (Int, Int) -> Int, _ a: Int, _ b: Int) -> Int {
+  adder(a, b)    
+}
+                                        // Nested functions, and returning functions
+func choose(dir: Bool) -> (Int) -> Int {
+  func forward(_ x: Int) -> Int { x + 1 }
+  func backward(_ x: Int) -> Int {x - 1 }
+  return dir ? forward : backward
+}
+```
+
+</details>
