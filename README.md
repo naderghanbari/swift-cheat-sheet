@@ -688,3 +688,35 @@ func eval(_ expr: Expr) -> Int {    // A recursive function
 ```
 
 </details>
+
+<details>
+<summary>Structures, Value Types</summary>
+
+```swift
+struct Resolution {                 // Structs, similar to case classes in Scala
+  var width = 0                     // A stored property with a default property value      
+  var height = 0
+}
+                                    // Member-wise initializer
+                                    // Compiler automatically generates it for structs
+let vga = Resolution(width: 640, height: 480)
+
+vga.width                           // Accessing properties of a struct
+
+                                    
+// Structs, enums, strings, inetegres, floats, and booleans are all value types
+// When assigned to a variable or constant, they get copied
+
+var currentResoltion = vga          // Gets copied, because right hand side is a value type
+
+currentResoltion.width = 320        // Only the new copy is mutated 
+vga.width                           // still 640, original copy is intact
+
+
+vga.width = 100                     // Impossible! Compile error! Kaboom!
+                                    // If a value type is assigned to a constant, none of 
+                                    // its properties can be mutated, even if they are defined
+                                    // as vars. This behavior is different for reference types.
+```
+
+</details>
