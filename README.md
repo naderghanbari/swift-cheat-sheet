@@ -848,3 +848,31 @@ let myGlobal = expensive()              // Global, automatically lazy
 ```
 
 </details>
+
+<details>
+<summary>Type Properties</summary>
+
+```swift
+struct User {                               // Type properties belong to the type (struct or class), not instances
+  static const placeholder = "John Doe"     // Like static final in C, and Java
+  static var minAge: Int {                  // static computed property
+    18
+  }
+}
+
+class SomeClass {                           // Overridable computed type property (JVM langs are crying now!) 
+  class var computed: Int {                 // keyword class has the same meaning as
+    107                                     // static but it allows sub-classes to override the
+  }                                         // computed property
+}
+
+enum Rejection {
+  static var message = "You got rejected"   // Enums can also have type properties
+  case noToken, badToken, expiredToken       
+}
+
+User.placeholder                            // Query the stored type property
+User.minaAge = 21                           // Set the stored type property
+```
+
+</details>
