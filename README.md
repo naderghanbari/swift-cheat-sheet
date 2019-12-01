@@ -604,15 +604,15 @@ switch dir {                            // Pattern matching on enums
   case .west:  print("Also us")
 }  
 
-enum Drink: CaseIterable {           // Makes it iterable
+enum Drink: CaseIterable {              // Makes it iterable
   case coffee, tea, juice
 }
-let all: [Drink] = Drink.allCases    // allCases return the array of all cases
+let all: [Drink] = Drink.allCases       // allCases return the array of all cases
 
 
-enum TwoFactorAuthMethod {           // Enums cas be used for ADTs
+enum TwoFactorAuthMethod {              // Enums cas be used for ADTs
   case disabled
-  case phone(String)                 // Associated values, works like tuples, can be named
+  case phone(String)                    // Associated values, works like tuples, can be named
   case textMessage(String)      
   case google(token: String, time: Int)
   case accessCodes(codes: [String])     
@@ -620,66 +620,66 @@ enum TwoFactorAuthMethod {           // Enums cas be used for ADTs
 }
 
 var method: TwoFactorAuthMethod
-method = .phone("+1-111-111111")    // Passing associated values, just like tuples
+method = .phone("+1-111-111111")        // Passing associated values, just like tuples
 method = .accessCodes(codes: ["1", "2"])
 method = .disabled
 
-switch method {                     // Pattern matching on ADTs                
+switch method {                         // Pattern matching on ADTs                
   case .disabled:                    
     print("No way!")
-  case .phone(let number):          // Binding the associated value, think tuples
+  case .phone(let number):              // Binding the associated value, think tuples
     print(number)
-  case let .accessCodes(codes):     // Let or var can be placed before case name 
+  case let .accessCodes(codes):         // Let or var can be placed before case name 
     print(codes.count)
-  case .email:                      // Associated values can be ignored    
+  case .email:                          // Associated values can be ignored    
     print("Temporarily unsupported")
   default:
     print("Other methods are not supported yet!") 
 }
 
-enum ASCII: Character {             // Raw values, lifting value types to enums
-  case tab = "\t"                   // Each raw value must be unique
-  case lf = "\n"                    // Compiler asserts this because it's smart and it
-  case cr = "\r"                    // knows how to distinguish different literals!
+enum ASCII: Character {                 // Raw values, lifting value types to enums
+  case tab = "\t"                       // Each raw value must be unique
+  case lf = "\n"                        // Compiler asserts this because it's smart and it
+  case cr = "\r"                        // knows how to distinguish different literals!
 }
 
-                                    // Implicit raw values
-                                    // Each case's raw value is the previous' + 1
+                                        // Implicit raw values
+                                        // Each case's raw value is the previous' + 1
 enum Planet: Int {
     case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
 }
-extension Planet: CaseIterable {}   // Making it iterable using extensions 
+extension Planet: CaseIterable {}       // Making it iterable using extensions 
 
-Planet.earth.rawValue               // Accessing raw values
+Planet.earth.rawValue                   // Accessing raw values
 
-enum CompassPoint: String {         // For String raw values, the name of each
-    case north, south, east, west   // case is implicitly assigned as the raw value
+enum CompassPoint: String {             // For String raw values, the name of each
+    case north, south, east, west       // case is implicitly assigned as the raw value
 }
 
-CompassPoint.north.rawValue         // "north"
+CompassPoint.north.rawValue             // "north"
 
-                                    // Initializing from a raw value
-                                    // Returns an optional, reasonably, because not 
-                                    // all raw values necessarily correspond to an actual case
+                                        // Initializing from a raw value
+                                        // Returns an optional, reasonably, because not 
+                                        // all raw values necessarily correspond to an actual case
 let maybe: Planet? = Planet(rawValue: 7)
 
 
-                                    // And now, the super power of enums in Swift!
-                                    // Recursive enumerations
+                                        // And now, the super power of enums in Swift!
+                                        // Recursive enumerations
 enum Expr {
   case number(Int)
-  indirect case add(Expr, Expr)     // indirect keyword is needed for recursive branches
+  indirect case add(Expr, Expr)         // indirect keyword is needed for recursive branches
   indirect case mul(Expr, Expr)
 }
 
-indirect enum Expr {                // indirect keyword can be put before the enum
-  case number(Int)                  // keyword which then applies to all cases with    
-  case add(Expr, Expr)              // associated values  
+indirect enum Expr {                    // indirect keyword can be put before the enum
+  case number(Int)                      // keyword which then applies to all cases with    
+  case add(Expr, Expr)                  // associated values  
   case mul(Expr, Expr)
 }
 
-func eval(_ expr: Expr) -> Int {    // A recursive function
-  switch expr {                     // Pattern matching recursive enums
+func eval(_ expr: Expr) -> Int {        // A recursive function
+  switch expr {                         // Pattern matching recursive enums
     case let .number(value): return value
     case let .add(l, r): return eval(l) + eval(r)
     case let .mul(l, r): return eval(l) * eval(r)
@@ -693,30 +693,158 @@ func eval(_ expr: Expr) -> Int {    // A recursive function
 <summary>Structures, Value Types</summary>
 
 ```swift
-struct Resolution {                 // Structs, similar to case classes in Scala
-  var width = 0                     // A stored property with a default property value      
+struct Resolution {                     // Structs, similar to case classes in Scala
+  var width = 0                         // A stored property with a default property value      
   var height = 0
 }
-                                    // Member-wise initializer
-                                    // Compiler automatically generates it for structs
+                                        // Member-wise initializer
+                                        // Compiler automatically generates it for structs
 let vga = Resolution(width: 640, height: 480)
 
-vga.width                           // Accessing properties of a struct
+vga.width                               // Accessing properties of a struct
 
                                     
 // Structs, enums, strings, inetegres, floats, and booleans are all value types
 // When assigned to a variable or constant, they get copied
 
-var currentResoltion = vga          // Gets copied, because right hand side is a value type
+var currentResoltion = vga              // Gets copied, because right hand side is a value type
 
-currentResoltion.width = 320        // Only the new copy is mutated 
-vga.width                           // still 640, original copy is intact
+currentResoltion.width = 320            // Only the new copy is mutated 
+vga.width                               // still 640, original copy is intact
 
 
-vga.width = 100                     // Impossible! Compile error! Kaboom!
-                                    // If a value type is assigned to a constant, none of 
-                                    // its properties can be mutated, even if they are defined
-                                    // as vars. This behavior is different for reference types.
+vga.width = 100                         // Impossible! Compile error! Kaboom!
+                                        // If a value type is assigned to a constant, none of 
+                                        // its properties can be mutated, even if they are defined
+                                        // as vars. This behavior is different for reference types.
+```
+
+</details>
+
+<details>
+<summary>Classes, Reference Types</summary>
+
+```swift
+class VideoMode {                       // Class definition
+  var resolution = Resolution()         // Stored property
+  var interlaced = false
+  var frameRate = 0.0
+  var name: String?
+}
+
+// Classes are reference types
+// They don't get copied when assigned, all references of a class 
+// point to the same instance
+
+let tenEighty = VideoMode()             // Initialization
+tenEighty.resolution = hd               // Set property 
+tenEighty.interlaced = true             // Because classes are reference types, we can
+tenEighty.name = "1080i"                // mutate mutable properties of an instance, even if
+tenEighty.frameRate = 25.0              // that instance is a constant like tenEighty here
+
+let alsoTenEighty = tenEighty           // Assign the instance to a new reference
+
+alsoTenEighty.frameRate = 30.0          // Mutate the property via the new reference
+
+tenEighty.frameRate                     // Is now 30.0
+
+                                        // Triple equal signs is the "identical to" operator
+                                        // Returns true if both references refer to exactly the
+                                        // same class instance
+                                        // Similar to == in Java (reference equality)
+tenEighty === alsoTenEighty             // True
+
+someOther !==  tenEighty                // Not idential to, Similar to != in Java
+```
+
+</details>
+
+<details>
+<summary>Properties</summary>
+
+```swift
+
+struct FixedLengthRange {               // Stored properties    
+  var firstValue: Int                    // Variable stored property, can be mutated if the struct 
+                                        // instance is a variable
+  let length: Int                       // Constant stored property, can't be mutated even if
+                                        // the struct instance is a variable
+}
+
+class DataManager {
+  lazy var importer = DataImporter()    // Lazy stored properties, their initial value is 
+  var data = [String]()                 // not calculated until the first time it is used
+                                        // Opposite to Scala, in Swift only a var can be lazy
+  func manage() {
+    // use importer here
+  }
+}
+
+struct Rect {
+  var origin = Point()
+  var size = Size()
+  var center: Point {                   // Computed property, no storage just getter and setter
+    get {                               // Compute the value from other properties
+      let x = origin.x + (size.width / 2)
+      let y = origin.y + (size.height / 2)
+      return Point(x: x, y: y)
+    }
+    set(newCenter) {                    // Setter: sets values to other properties
+      origin.x = newCenter.x - (size.width / 2)
+      origin.y = newCenter.y - (size.height / 2)
+    }
+  }
+}
+
+struct Rect {
+  var origin = Point()
+  var size = Size()
+  var center: Point {                   // A computed property can't be a constant     
+    get {                               // Shorthand getter, no return needed for a single expression                 
+      Point(x: origin.x + (size.width / 2), y: origin.y + (size.height / 2))
+    }
+    set {                               // Shorthand for setter (no explicit name for the param)
+      origin.x = newValue.x - (size.width / 2)      // newValue is the implicit name for the param
+      origin.y = newValue.y - (size.height / 2)
+    }
+  }
+}
+
+var square = Rect(origin: Point(x: 0.0, y: 0.0),
+                  size: Size(width: 10.0, height: 10.0))
+
+square.center = Point(x: 15.0, y: 15.0) // Setting a computed property
+
+struct Cuboid {
+  var width = 0.0, 
+  var height = 0.0
+  var depth = 0.0
+  var volume: Double {                  // Read only computed property
+    width * height * depth              // No setter. Getter can be omitted like here
+  }
+}
+
+
+class StepCounter {                     // Property observers, a door to reactive programming 
+  var total: Int = 0 {                  // A normal stored property with observers
+    willSet(newTotal) {                 // Called right before a new value is stored
+      print("Will set to \(newTotal)")  // Like componentWillUpdate in old versions of React
+    }
+    didSet {                            // Called immediately after value is stored
+      if total > oldValue  {            // oldValue is the default param name if no override is given
+        print("Added \(total - oldValue) steps")
+      }
+    }                                   // Similar to componentDidUpdate in React
+  }
+}
+
+// Wrapped properties are not covered here
+
+// Global variables are those that are defined outside of any class, struct, or function  
+// Global variables can also be computed or stored and can have observers
+// Global variables are always lazy! Unlike properties, global constants can, and always are, lazy
+
+let myGlobal = expensive()              // Global, automatically lazy
 ```
 
 </details>
