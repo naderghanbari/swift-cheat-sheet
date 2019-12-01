@@ -876,3 +876,59 @@ User.minaAge = 21                           // Set the stored type property
 ```
 
 </details>
+
+<details>
+<summary>Methods</summary>
+
+```swift
+                                        // Classes, Structs, and Enums can have instance methods
+
+class Counter {
+  var count = 0
+  func increment() {                    // An instance method, defined exactly like a function
+    count += 1 
+  }
+  func increment(by amount: Int) {      // Another instance method with named params
+    count += amount
+  }
+  func exceeds(count: Int) {            // Param name is the same as the instance property name, self is needed
+    self.count > count                  // self, is the instance itself, always implicitly available 
+  }                                     // like self in Python and this in Java
+  func reset() {
+    count = 0
+  }
+}
+
+
+struct Point {                          // Mutating a value type from an instance method
+  var x = 0.0, y = 0.0                  // Method has to be qualified with the mutating keyword
+  mutating func moveBy(x deltaX: Double, y deltaY: Double) {
+      x += deltaX
+      y += deltaY
+  }
+}
+
+var somePoint = Point(x: 1.0, y: 1.0)
+somePoint.moveBy(x: 2.0, y: 3.0)        // A mutating method can be called only on variables
+                                        // Calling them on a constant gives a compile error
+
+struct Point {
+  var x = 0.0, y = 0.0
+  mutating func moveBy(x deltaX: Double, y deltaY: Double) {
+      self = Point(x: x + deltaX, y: y + deltaY)    // Big bang! Assign a new value to self is possible
+  }
+}
+
+enum TriStateSwitch {
+  case off, low, high
+  mutating func next() {
+    switch self {
+      case .off : self = .low           // Assigning self in an enum is also possible
+      case .low : self = .high
+      case .high: self = .off
+    }
+  }
+}
+```
+
+</details>
