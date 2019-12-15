@@ -765,7 +765,7 @@ someOther !==  tenEighty                // Not idential to, Similar to != in Jav
 ```swift
 
 struct FixedLengthRange {               // Stored properties    
-  var firstValue: Int                    // Variable stored property, can be mutated if the struct 
+  var firstValue: Int                   // Variable stored property, can be mutated if the struct 
                                         // instance is a variable
   let length: Int                       // Constant stored property, can't be mutated even if
                                         // the struct instance is a variable
@@ -845,6 +845,90 @@ class StepCounter {                     // Property observers, a door to reactiv
 // Global variables are always lazy! Unlike properties, global constants can, and always are, lazy
 
 let myGlobal = expensive()              // Global, automatically lazy
+```
+
+</details>
+
+<details>
+<summary>Property Wrappers</summary>
+
+```swift
+
+// Write code that manages how a property is set and re-use it for multiple properties
+// Defined in a struct, enum or class
+
+
+@propertyWrapper                        // Annotation indicating a property wrapper definition
+struct TwelveOrLess {
+  private var number = 0                // Internal state of the propety wrapper (arbitrary)
+  var wrappedValue: Int {               // wrappedValue is a special name, by-convention like oldValue in didSet
+    get { number }                      // Getter logic
+    set { number = min(newValue, 12) }  // Setter logic
+  }
+}
+
+@TwelveOrLess var height: Int           // Usage, annotation before property declaration
+print(height)                           // 0 
+height = 10                             
+print(height)                           // 10
+height = 24
+print(height)                           // 12
+
+
+@propertyWrapper                        // A property wrapper with initializers 
+struct SmallNumber {
+  private var maximum: Int
+  private var number: Int
+
+  var wrappedValue: Int {
+    get { number }
+    set { number = min(newValue, maximum) }
+  }
+
+  init() {                              // Called when used as below
+    maximum = 12                        // @SmallNumber var height: Int
+    number = 0
+  }
+  init(wrappedValue: Int) {             // Called when assigned a value when initialized as below
+    maximum = 12                        // @SmallNumber var height: Int = 8
+    number = min(wrappedValue, maximum)
+  }
+  init(wrappedValue: Int, max: Int) {   // Used when params are passed as below variants
+    self.maximum = max                  // @SmallNumber(max: 44) var height: Int = 23
+    number = min(wrappedValue, max)     // @SmallNumber(wrappedValue: 23, max: 44) var height: Int
+  }
+}
+
+
+@propertyWrapper
+struct SmallNumber {
+  private var number = 0
+  var projectedValue = false            // Another convention, projectedValue allows accessing an additional
+  var wrappedValue: Int {               // value or type using the $ syntax
+    get { number }
+    set {
+      if newValue > 12 {
+        number = 12
+        projectedValue = true
+      } else {
+        number = newValue
+        projectedValue = false
+      }
+    }
+  }
+}
+
+@SmallNumber var x: Int
+x = 4                                   // setter
+x                                       // get wrapped value 4
+$x                                      // get projected value (true)
+
+@DbObject user: User                    // Another example
+user.name                               // Wrapped value
+$user.flushConnection()                 // Projected value can expose a lower-level object
+                                        // Don't do that in practice, instead use proper designs like domain-driven
+                                        // design but keep in mind that projected value is there and can be used
+                                        // if it does not vioalte your code of honour
 ```
 
 </details>
