@@ -1129,3 +1129,66 @@ speedLimit["morning"]=105                 // subscript set
 ```
 
 </details>
+
+<details>
+<summary>Inheritance</summary>
+  
+```swift
+
+class Vehicle {                           // A base class, that is a class the inherits from no other class
+  var speed = 0.0
+  var description: String {
+    "traveling at \(speed) km/h"
+  }
+  func makeNoise() {
+    // do nothing
+  }
+}
+
+class Bicycle: Vehicle {                  // Subclassing, class A: B means A is a sub-class of A
+  var hasBasket = false                   // Additional property that is not inherited
+}
+
+let bicycle = Bicycle()
+bicycle.hasBasket = true
+bicycle.speed = 15.0                      // speed property is inherited
+
+class Tandem: Bicycle {                   // Subclassing a subclass, Tandem is a Bicycle and a Vehicle
+  var numberOfPassengers = 0
+}
+
+class Train: Vehicle {
+  override func makeNoise() {             // Overriding an inherited function
+    print("Choo Choo")                    // override keyword is mandatory in Swift, a blessing (belive me)
+  }
+}
+
+class Car: Vehicle {
+  var gear = 1
+  override var description: String {      // Overriding a computed property
+    super.description + " in \(gear)"     // super keyword can be used to access parent's property
+  }                                       // similar to other languages like Java
+}
+
+class AutomaticCar: Car {
+  override var speed: Double {
+    didSet {                              // Overriding property observers is also possible
+      gear = Int(currentSpeed/10.0)+1
+    }
+  }
+}
+
+override subscript(n:Int) -> Int { }      // Subscripts can also be overridden 
+
+final class A {}                          // final keywords prevents a class from being subclassed
+class B: A {}                             // compile error!
+
+class Sample {
+  final var x: Int                        // prevents the property from being overridden
+  final func f() {}                       // prevents the function from being overridden
+  final class func g {}                   // seals the type method so it can't be subclassed
+  final subscript(n: Int) -> Int {}       // seals the subscript
+}
+```
+  
+</details>
