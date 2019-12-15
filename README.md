@@ -1072,3 +1072,60 @@ class Player {
 
 </details>
 
+<details>
+<summary>Subscripts</summary>
+  
+```swift
+
+a["value"]                                // This is a subscript, syntax similar to Python and JS
+                                          // But how does it work? Very imilar to __getitem__() in Python
+                                          // or the apply/updateValue syntactic sugars in Scala:
+                                          // The type has to implement it so the compiler is just a proxy
+
+struct TimesTable {
+  let multiplier: Int
+  subscript(index: Int) -> Int {          // Here is how you make something subscriptable
+    return multiplier * index             // Here it's a read only subscript
+  }
+}
+let tab = TimesTable(multiplier: 3)
+tab[6]                                    // 18
+
+struct Matrix {                           // Subscripts can be of any dimensions
+  // impl details here
+  subscript(r: Int, c: Int) -> Double {
+    get { 
+      grid[(r * columns) + c]             // Getter, called when print(m[2,3])
+    }
+    set {                                 // Setter, called when m[2, 3]=6
+      grid[(r * columns) + c] = newValue
+    }
+  }
+}
+
+var m: Matrix
+m[2,3] = 6                                // subscript set is called with r=2,c=3
+print(m[2,3])                             // subscript get is called with r=2,c=3
+
+
+enum Planet {                             // Type subscripts are allowed! Nice!
+  case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+  static subscript(n: Int) -> Planet {    // Type or static subscript
+    Planet(rawValue: n)!
+  }
+}
+let mars = Planet[4]                      // Usage, subscrpiting a type
+
+
+
+                                          // Subscripts can accept and return arbitraty types
+
+subscript(key: K) -> V?                   // Somewhere in the definition of the Dictionary class
+                                          // Don't worry about K and V types for now
+
+var speedLimit = ["day": 95, "night": 85]
+speedLimit["day"]                         // subscripting a dict by a string, returns an Int?
+speedLimit["morning"]=105                 // subscript set
+```
+
+</details>
