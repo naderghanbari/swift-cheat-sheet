@@ -1016,3 +1016,59 @@ enum TriStateSwitch {
 ```
 
 </details>
+
+<details>
+<summary>Type Methods</summary>
+  
+```swift
+class SomeClass {                   
+  static func someTypeMethod() {        // Similar to static methods in Java
+    // impl                             // It means the method belongs to the type not to a single instance
+  }
+  class func someTypeMethod() {         // class keyword means the type method can be overridden by 
+    //type method implementation        // subclasses
+  }
+}
+SomeClass.someTypeMethod()              // Usage, similar to other languages, TypeName.typeMethod()
+
+
+struct LevelTracker {                   // Structs and enums can have type methods as well
+  static var highestUnlocked = 1        // Type property
+  var current = 1                       // Instance property
+
+  static func unlock(_ level: Int) {
+    if level > self.highestUnlocked {   // self in a type method refers to the type 
+      self.highestUnlocked = level      // so here self.highestUnlocked refers to type property
+    }
+  }
+
+  static func isUnlocked(_ l: Int) {
+    l <= highestUnlocked
+  }
+
+  @discardableResult
+  mutating func advance(to level: Int) -> Bool {
+    if LevelTracker.isUnlocked(level) {
+      currentLevel = level
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
+class Player {
+  var tracker = LevelTracker()            // An instance of LevelTracker
+  let name: String
+  func complete(level: Int) {
+    LevelTracker.unlock(level + 1)        // Calling the type method, unlocks it for all players
+    tracker.advance(to: level + 1)        // Calling the instance method, advances only this player
+  }
+  init(name: String) {
+    self.name = name
+  }
+}
+```
+
+</details>
+
